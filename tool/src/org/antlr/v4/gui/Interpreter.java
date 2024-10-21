@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -137,13 +138,13 @@ public class Interpreter {
 		LexerGrammar lg = null;
 		DefaultToolListener listener = new DefaultToolListener(new Tool());
 		if (grammarFileName != null) {
-			String grammarContent = Files.readString(Path.of(grammarFileName));
+			String grammarContent = new String(Files.readAllBytes(Paths.get(grammarFileName)), StandardCharsets.UTF_8);
 			g = new IgnoreTokenVocabGrammar(grammarFileName, grammarContent, null, listener);
 		}
 		else {
-			String lexerGrammarContent = Files.readString(Path.of(lexerGrammarFileName));
+			String lexerGrammarContent = new String(Files.readAllBytes(Paths.get(lexerGrammarFileName)), StandardCharsets.UTF_8);
 			lg = new LexerGrammar(lexerGrammarContent, listener);
-			String parserGrammarContent = Files.readString(Path.of(parserGrammarFileName));
+			String parserGrammarContent = new String(Files.readAllBytes(Paths.get(parserGrammarFileName)), StandardCharsets.UTF_8);
 			g = new IgnoreTokenVocabGrammar(parserGrammarFileName, parserGrammarContent, lg, listener);
 		}
 
